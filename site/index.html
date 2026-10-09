@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ひるメモ｜ヒルナンデスで紹介された商品・宿まとめ</title>
+<meta name="description" content="「ヒルナンデス！」で紹介された商品や宿を、放送回・お店・種類でさがせる非公式のまとめサイトです。どんな味か、宿の部屋の広さやごはんまで、販売ページで確認して掲載しています。">
+<link rel="canonical" href="https://hirumemo.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ひるメモ">
+<meta property="og:title" content="ひるメモ｜ヒルナンデスで紹介された商品・宿まとめ">
+<meta property="og:description" content="「ヒルナンデス！」で紹介された商品や宿を、放送回・お店・種類でさがせる非公式のまとめサイトです。どんな味か、宿の部屋の広さやごはんまで、販売ページで確認して掲載しています。">
+<meta property="og:url" content="https://hirumemo.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}
+/* Single light look by choice: the page keeps its cream-and-coral palette in dark mode too. */
+/* Layout: sticky masthead with two views (さがす = filterable catalogue rows, 放送回まとめ = one article per broadcast); single centered column, rows stack on phones. */
+:root{
+  --bg:#FBF5F2; --surface:#FFFFFF; --ink:#3A2E2C; --muted:#7B6B67; --line:#ECDFDA;
+  --accent:#F6B3A8; --accent-ink:#5A1E18; --link:#A8463F; --strong:#C2554E; --strong-ink:#FFFFFF;
+  --ok:#3F7A52; --ok-bg:#E7F2E6; --warn:#84590A; --warn-bg:#FFF1D6; --chip:#F6ECE8;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7}
+a{color:var(--link)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+
+.mast{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.mast-in{max-width:920px;margin:0 auto;padding-inline:16px;padding-block:10px 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.sun{width:26px;height:26px;margin:5px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px var(--surface),0 0 0 5px var(--accent)}
+h1,h2,.name{word-break:auto-phrase}
+.brand b{font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:.04em;line-height:1.2}
+.brand span{color:var(--muted);font-size:12px}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:8px 12px 9px;cursor:pointer;font-weight:700;color:var(--muted)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+.wrap{max-width:920px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;display:flex;flex-direction:column;gap:16px}
+.demo{background:var(--warn-bg);color:var(--warn);border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.6}
+.demo b{font-weight:700}
+.pr{color:var(--muted);font-size:12px}
+
+h1{font-family:var(--display);font-weight:900;font-size:clamp(20px,4.6vw,28px);line-height:1.4;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.4;margin:0;text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:40em}
+
+.tools{display:flex;flex-direction:column;gap:12px}
+.search{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.flabel{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em;flex:none;width:5.5em}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 13px;cursor:pointer;font-size:13px;line-height:1.5}
+.chip[aria-pressed="true"]{background:var(--strong);color:var(--strong-ink);border-color:var(--strong);font-weight:700}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;border-top:1px solid var(--line);padding-top:12px}
+.count{font-weight:700}
+.count small{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
+.sort{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+
+.list{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.item{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:10px 16px;padding:14px 16px;border-top:1px solid var(--line);align-items:center}
+.item:first-child{border-top:0}
+.thumb{width:72px;aspect-ratio:1;border-radius:10px;background:var(--chip);color:var(--link);display:grid;place-items:center;flex:none;align-self:start}
+.thumb svg{width:56%;height:56%}
+.block-head{display:flex;gap:12px;align-items:center}
+.block-head h3{min-width:0}
+.item-main{min-width:0;display:flex;flex-direction:column;gap:4px}
+.name{font-weight:700;font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;gap:2px 12px;color:var(--muted);font-size:13px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.badge{font-size:12px;line-height:1.5;padding:1px 9px;border-radius:999px;background:var(--chip);color:var(--ink)}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.badge.wait{background:var(--warn-bg);color:var(--warn)}
+.item-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.price{font-family:var(--display);font-weight:900;font-size:20px;font-variant-numeric:tabular-nums;line-height:1.2;white-space:nowrap}
+.price small{font-family:var(--body);font-weight:400;font-size:11px;color:var(--muted);margin-left:4px}
+.price.none{font-family:var(--body);font-weight:500;font-size:13px;color:var(--muted)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:13px;text-decoration:none;border:0;border-radius:8px;padding:7px 14px;cursor:pointer;line-height:1.5}
+.btn.ghost{background:none;color:var(--link);border:1px solid var(--line)}
+.btn.off{background:var(--chip);color:var(--muted);cursor:default}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:28px 16px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:12px;align-items:center}
+
+.pick{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pick label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+.pick select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);max-width:100%}
+.article{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 20px 26px;display:flex;flex-direction:column;gap:18px}
+.article p{margin:0;max-width:40em}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:14px}
+th,td{text-align:left;padding:8px 12px;border-top:1px solid var(--line);vertical-align:top}
+thead th{border-top:0;background:var(--chip);font-size:12px;letter-spacing:.06em;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.block{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:8px}
+.block h3{font-size:16px;font-weight:700;margin:0;line-height:1.5;overflow-wrap:anywhere}
+.block ul{margin:0;padding-left:1.2em}
+.todo{color:var(--muted);font-style:normal;background:var(--chip);border-radius:4px;padding:0 6px}
+.sample{border:1px dashed var(--line);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.sample b{color:var(--ink)}
+.note{font-size:12px;color:var(--muted)}
+footer{color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+
+@media (max-width:600px){
+  .tabs{margin-left:0;width:100%}
+  .tab{flex:1}
+  .item{grid-template-columns:64px minmax(0,1fr)}
+  .thumb{width:64px}
+  .item-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .flabel{width:100%}
+  .article{padding:18px 14px 22px}
+}
+@media (prefers-reduced-motion:no-preference){ .chip,.btn,.tab{transition:background-color .12s,color .12s,border-color .12s} }
+
+[hidden]{display:none!important}
+.crumbs{font-size:12px;color:var(--muted)}
+.crumbs a{color:var(--muted)}
+.mast a.brand{color:inherit;text-decoration:none}
+.navlinks{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.navlinks a{padding:8px 12px 9px;font-weight:700;color:var(--muted);text-decoration:none;border-bottom:3px solid transparent}
+.navlinks a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.blist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.blist a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;text-decoration:none;color:var(--ink);font-weight:700}
+.blist small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.prose{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 20px;display:flex;flex-direction:column;gap:14px}
+.prose p,.prose ul{margin:0;max-width:40em}
+
+/* catalogue: photo-first cards */
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ph{display:block;aspect-ratio:1;background:#fff;border-bottom:1px solid var(--line);position:relative}
+.ph img{width:100%;height:100%;object-fit:contain;display:block}
+.ph.none{background:var(--chip);color:var(--link);display:grid;place-items:center;text-decoration:none;text-align:center;font-size:12px;line-height:1.6}
+.ph.none svg{width:38%;height:auto;display:block;margin:0 auto 6px}
+.kind{position:absolute;left:8px;top:8px;background:var(--strong);color:var(--strong-ink);font-size:11px;font-weight:700;border-radius:999px;padding:1px 10px;line-height:1.7}
+.card-b{padding:12px 12px 14px;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.ep{font-size:11px;color:var(--muted);line-height:1.5}
+.card .name{font-size:14px;line-height:1.5}
+.card .name a{color:inherit;text-decoration:none}
+.catch{font-size:13px;line-height:1.6;color:var(--ink);margin:0}
+.card .price{font-size:19px;margin-top:auto;padding-top:4px;white-space:normal}
+.cond{font-size:11px;color:var(--muted);line-height:1.5}
+.card .btn{text-align:center;padding:9px 10px}
+.more{font-size:12px;text-align:center}
+
+/* article */
+.epbox{background:var(--chip);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.epbox h2{font-size:15px}
+dl.kv{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:14px}
+dl.kv dt{color:var(--muted);font-weight:700;font-size:12px;letter-spacing:.04em;padding-top:2px;white-space:nowrap}
+dl.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.block{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;align-items:start;padding-top:20px}
+.block .ph{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.block-b{display:flex;flex-direction:column;gap:10px;min-width:0}
+.block h3{font-family:var(--display);font-size:18px;line-height:1.5}
+.block .catch{font-weight:700;font-size:15px;color:var(--strong)}
+.block p{max-width:38em}
+.eat{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.eat b{font-size:12px;color:var(--muted);letter-spacing:.04em;margin-right:2px}
+.eat span{background:var(--ok-bg);color:var(--ok);border-radius:999px;padding:1px 10px;font-size:12px;line-height:1.7}
+.said{border-left:4px solid var(--accent);background:var(--bg);border-radius:0 8px 8px 0;padding:8px 12px;font-size:13px}
+.buyrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.btn.big{font-size:15px;padding:11px 22px;background:var(--strong);color:var(--strong-ink)}
+.sub{font-weight:700;font-size:13px;color:var(--muted);letter-spacing:.04em;margin-top:4px}
+.article table{min-width:0}
+.block td:first-child{min-width:4.6em}
+.block.nophoto{grid-template-columns:1fr}
+.block{scroll-margin-top:84px}
+.ph.cover img{object-fit:cover}
+.kakaku{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+.kakaku h4{margin:0;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+.kakaku ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.kakaku li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.kakaku li .p{grid-column:1;grid-row:1}
+.kakaku li .shopnm{grid-column:1;grid-row:2}
+.kakaku li a{grid-column:2;grid-row:1/3}
+.kakaku .p{font-family:var(--display);font-weight:900;font-size:17px;white-space:nowrap}
+.kakaku .p small{font-family:var(--body);font-weight:400;font-size:11px;color:var(--muted);margin-left:4px}
+.kakaku .shopnm{font-size:12px;line-height:1.5;min-width:0;overflow-wrap:anywhere}
+.kakaku .tag{display:inline-block;white-space:nowrap;font-size:11px;font-weight:700;border-radius:999px;padding:0 8px;line-height:1.7;background:var(--ok-bg);color:var(--ok);margin-right:4px}
+.kakaku .tag.off{background:var(--warn-bg);color:var(--warn)}
+.kakaku .tag.tv{background:var(--chip);color:var(--ink)}
+.kakaku li.gone{opacity:.6}
+.kakaku p{font-size:13px}
+.mark{font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;line-height:1.6;align-self:flex-start}
+.mark.gone{background:var(--warn-bg);color:var(--warn)}
+.mark.alt{background:var(--ok-bg);color:var(--ok);text-decoration:none}
+.kotsu{margin:0;padding-left:1.2em;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.credit{position:absolute;left:0;bottom:0;background:rgba(0,0,0,.6);color:#fff;font-size:10px;line-height:1.6;padding:1px 7px;border-radius:0 6px 0 0}
+.phs{display:flex;flex-direction:column;gap:10px;min-width:0}
+.block .ph.land{aspect-ratio:16/9}
+.prnote{margin:0 0 8px;font-size:13px;color:var(--ink)}
+/* まとめ買いリスト */
+.add{border:1px solid var(--strong);background:var(--surface);color:var(--strong);font-weight:700;font-size:12px;border-radius:8px;padding:7px 8px;cursor:pointer;line-height:1.5}
+.add[aria-pressed="true"]{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.bulk{background:var(--warn-bg);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.bulk h2{font-size:15px}
+.bulk p{margin:0;font-size:14px}
+.cartbar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--ink);color:#fff;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:center;gap:10px 16px;flex-wrap:wrap}
+.cartbar b{font-family:var(--display);font-size:16px}
+.cartbar .btn{background:var(--accent);color:var(--accent-ink)}
+body.hascart{padding-bottom:76px}
+.cartpanel{position:fixed;inset:0;z-index:9;background:rgba(58,46,44,.45);display:flex;align-items:flex-end;justify-content:center}
+.cartsheet{background:var(--surface);width:100%;max-width:560px;max-height:86vh;overflow:auto;border-radius:16px 16px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.carthead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cartsheet p{margin:0;font-size:13px}
+.cartlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.cartlist li{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.cartlist img{width:64px;height:64px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:#fff}
+.cartlist .nm{font-size:13px;font-weight:700;line-height:1.5}
+.cartlist .pr2{font-size:13px;color:var(--muted)}
+.cartlist .ops{display:flex;flex-direction:column;gap:6px;align-items:stretch;text-align:center}
+.cartlist .seen{font-size:11px;color:var(--ok)}
+.x{background:none;border:0;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:2px}
+.carttotal{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--ink);padding-top:10px;font-weight:700}
+@media (max-width:720px){.block{grid-template-columns:1fr}.block .ph{max-width:340px;width:100%;margin:0 auto}}
+@media (max-width:600px){
+  .navlinks{margin-left:0;width:100%}.navlinks a{flex:1;text-align:center;white-space:nowrap;font-size:14px;padding-inline:4px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card-b{padding:10px 10px 12px}
+  .card .price{font-size:17px}
+}
+</style>
+</head>
+<body>
+<header class="mast"><div class="mast-in">
+<a class="brand" href="./"><div class="sun" aria-hidden="true"></div><div><b>ひるメモ</b><br><span>お昼のテレビで紹介されたもの、ぜんぶメモ。</span></div></a>
+<nav class="navlinks" aria-label="メニュー"><a href="./" aria-current="page">さがす</a><a href="./#kai">放送回まとめ</a><a href="about.html">サイトについて</a></nav>
+</div></header>
+<div class="wrap">
+<main style="display:flex;flex-direction:column;gap:16px">
+<h1>ヒルナンデスで紹介された商品・宿をさがす</h1>
+<p class="lead">どの放送回で紹介されたか、どんな味か、宿なら部屋の広さやごはんまで。価格は販売ページで確かめたものだけを載せています。気になる商品は「まとめ買いリスト」に入れると、合計を見ながらまとめて買えます。</p>
+<div class="tools">
+<input class="search" id="q" type="search" placeholder="商品名・お店・食べ方でさがす（例：ふりかけ、卵かけ）" aria-label="キーワードでさがす">
+<div class="frow"><span class="flabel">種類</span><button class="chip" data-f="kind" data-v="" aria-pressed="true">すべて</button><button class="chip" data-f="kind" data-v="商品" aria-pressed="false">商品</button><button class="chip" data-f="kind" data-v="宿" aria-pressed="false">宿</button><button class="chip" data-f="kind" data-v="店" aria-pressed="false">店</button></div>
+<div class="frow"><span class="flabel">お店・場所</span><button class="chip" data-f="shop" data-v="" aria-pressed="true">すべて</button><button class="chip" data-f="shop" data-v="横浜" aria-pressed="false">横浜</button><button class="chip" data-f="shop" data-v="銀座・ファミレス" aria-pressed="false">銀座・ファミレス</button><button class="chip" data-f="shop" data-v="伊香保温泉" aria-pressed="false">伊香保温泉</button><button class="chip" data-f="shop" data-v="AKOMEYA TOKYO" aria-pressed="false">AKOMEYA TOKYO</button></div>
+<div class="bar"><div class="count" id="count" aria-live="polite">26件 <small>全26件・4放送回</small></div>
+<select class="sort" id="sort" aria-label="並び順"><option value="new">放送日が新しい順</option><option value="low">価格が安い順</option><option value="high">価格が高い順</option></select></div>
+</div>
+<ul class="cards" id="list">
+<li class="card" data-kind="店" data-shop="横浜" data-date="2026-10-09" data-price="0" data-text="重慶飯店 本館「正宗麻婆豆腐」 横浜 横浜グルメ 牛ひき肉と熟成豆板醤の、しびれる麻婆豆腐 叩いて挽いた牛肉と、長く熟成させた豆板醤・唐辛子を油でじっくり煮て香りを出した麻婆豆腐です。しびれと辛さのあとに濃いうま味が続く味で、もとは本館の裏メニューだったものが常連に広まり、今は本館と新館で食べられます。 白いごはんと一緒に 炒飯にかけて（常連の食べ方）">
+<a class="ph none" href="https://www.jukeihanten.com/menu/5103/" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">店</span></a>
+<div class="card-b"><div class="ep">2026年10月9日（金）放送｜横浜</div>
+<div class="name"><a href="20261009-yokohama-shingo.html#i1">重慶飯店 本館「正宗麻婆豆腐」</a></div>
+<p class="catch">牛ひき肉と熟成豆板醤の、しびれる麻婆豆腐</p>
+
+<div class="price">確認中<small></small></div>
+<a class="btn" href="https://www.jukeihanten.com/menu/5103/" target="_blank" rel="noopener">公式サイトで見る</a>
+
+<a class="more" href="20261009-yokohama-shingo.html#i1">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="横浜" data-date="2026-10-09" data-price="2430" data-text="重慶飯店「麻婆豆腐醤」5個セット（家で作れる麻婆豆腐の素） 横浜 横浜グルメ 重慶飯店の味を家で。豆腐を足してレンジで作る素 放送で出た麻婆豆腐そのものではありませんが、重慶飯店が出している麻婆豆腐の素です。豆腐一丁を足して電子レンジで作れて、山椒のしびれと唐辛子の辛さがあります。お店の正宗麻婆豆腐は牛肉を使いますが、この素は豚肉入りなので、まったく同じ味ではありません。 豆腐一丁を足してレンジで 茄子の炒め物に 炒飯に">
+<a class="ph none" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fjukeihanten%2F3211019%2F" target="_blank" rel="nofollow sponsored noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M8 30c0 7 7 11 16 11s16-4 16-11"/><path d="M8 30c4-3 28-3 32 0"/><path d="M17 8c-3 4 3 6 0 11M24 6c-3 4 3 7 0 13M31 8c-3 4 3 6 0 11"/></svg>写真は予約ページで<br>見られます</span><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2026年10月9日（金）放送｜横浜</div>
+<div class="name"><a href="20261009-yokohama-shingo.html#i2">重慶飯店「麻婆豆腐醤」5個セット（家で作れる麻婆豆腐の素）</a></div>
+<p class="catch">重慶飯店の味を家で。豆腐を足してレンジで作る素</p>
+
+<div class="price">2,430円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fjukeihanten%2F3211019%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+
+<a class="more" href="20261009-yokohama-shingo.html#i2">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="横浜" data-date="2026-10-09" data-price="600" data-text="香港飲茶専門店 西遊記「チャーシューメロンパン」 横浜 横浜グルメ 甘いさくさく生地で、叉焼あんを包んだ香港式パン メロンパンのような甘くさくさくした生地で、とろりと煮込んだ叉焼のあんを包んで焼いた点心です。店内で生地から手作りし、1階の入口で焼きたてを売っています。中華街の食べ歩きにぴったりです。 焼きたてを食べ歩きで 持ち帰って家で">
+<a class="ph none" href="https://saiyuki.co.jp/" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2026年10月9日（金）放送｜横浜</div>
+<div class="name"><a href="20261009-yokohama-shingo.html#i3">香港飲茶専門店 西遊記「チャーシューメロンパン」</a></div>
+<p class="catch">甘いさくさく生地で、叉焼あんを包んだ香港式パン</p>
+
+<div class="price">600円<small>2個・税込</small></div>
+<a class="btn" href="https://saiyuki.co.jp/" target="_blank" rel="noopener">お店のサイトを見る</a>
+
+<a class="more" href="20261009-yokohama-shingo.html#i3">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="店" data-shop="横浜" data-date="2026-10-09" data-price="0" data-text="craft.（馬車道・bankpark yokohama） 横浜 横浜グルメ 昭和初期の銀行建築を使った、天井の高いカフェ 旧第一銀行横浜支店（横浜市認定歴史的建造物）を使ったカフェで、2層吹き抜けの高い天井と8本の円柱、アーチ型の大きな窓が特徴です。工芸品のセレクトショップやギャラリーも同じ建物に入っています。 馬車道散歩の休憩に スコーンとお茶のセットで">
+<a class="ph none" href="https://co-trip.jp/article/713553" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">店</span></a>
+<div class="card-b"><div class="ep">2026年10月9日（金）放送｜横浜</div>
+<div class="name"><a href="20261009-yokohama-shingo.html#i4">CRAFT.（馬車道・BankPark YOKOHAMA）</a></div>
+<p class="catch">昭和初期の銀行建築を使った、天井の高いカフェ</p>
+
+<div class="price">確認中<small></small></div>
+<a class="btn" href="https://co-trip.jp/article/713553" target="_blank" rel="noopener">お店の紹介記事を見る</a>
+
+<a class="more" href="20261009-yokohama-shingo.html#i4">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="店" data-shop="横浜" data-date="2026-10-09" data-price="0" data-text="日本酒・魚料理 横浜 酒槽（gems横浜） 横浜 横浜グルメ 生簀の魚と日本酒の、横浜駅西口の店 生簀の活魚、炉端焼き、土鍋の炊き込みごはんに、全国の蔵元の日本酒を合わせるお店です。放送では、かわはぎの活け造りや、いくらの土鍋御飯が登場しました。個室は最大12名まで使えます。 魚に日本酒を合わせる夜の食事に 個室での集まりに（最大12名）">
+<a class="ph none" href="https://www.gems-portal.com/yokohama/shop/sakafune.html" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">店</span></a>
+<div class="card-b"><div class="ep">2026年10月9日（金）放送｜横浜</div>
+<div class="name"><a href="20261009-yokohama-shingo.html#i5">日本酒・魚料理 横浜 酒槽（GEMS横浜）</a></div>
+<p class="catch">生簀の魚と日本酒の、横浜駅西口の店</p>
+
+<div class="price">確認中<small></small></div>
+<a class="btn" href="https://www.gems-portal.com/yokohama/shop/sakafune.html" target="_blank" rel="noopener">お店のページを見る</a>
+
+<a class="more" href="20261009-yokohama-shingo.html#i5">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="銀座・ファミレス" data-date="2026-10-08" data-price="1858" data-text="銀座 萬年堂本店「御目出糖（おめでとう）」 普通箱 6個入り 銀座・ファミレス 和菓子・グルメ 赤飯に見立てた、銀座のお祝い菓子 こしあんに餅粉などの米粉を混ぜてそぼろ状にし、蜜漬けの大納言小豆を散らして蒸し上げた和菓子です。元禄のころから伝わる菓子を赤飯に見立てたもので、もちもちした食感が特徴。日持ちは発送日から5日なので、お祝いの手土産向きです。 蒸し器で約1分温め直す 電子レンジで約15秒温め直す お祝いの手土産に">
+<a class="ph none" href="https://ginmannendou.shop24.makeshop.jp/shopdetail/000000000001/ct7/page1/price/" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2026年10月8日（木）放送｜銀座・ファミレス</div>
+<div class="name"><a href="20261008-ginza-gusto-jollypasta.html#i1">銀座 萬年堂本店「御目出糖（おめでとう）」 普通箱 6個入り</a></div>
+<p class="catch">赤飯に見立てた、銀座のお祝い菓子</p>
+
+<div class="price">1,858円<small>税込</small></div>
+<a class="btn" href="https://ginmannendou.shop24.makeshop.jp/shopdetail/000000000001/ct7/page1/price/" target="_blank" rel="noopener">公式通販で見る</a>
+
+<a class="more" href="20261008-ginza-gusto-jollypasta.html#i1">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="店" data-shop="銀座・ファミレス" data-date="2026-10-08" data-price="2530" data-text="馬菜 basai 銀座本店「馬肉大トロ重」 銀座・ファミレス 和菓子・グルメ 平日ランチ限定の、馬肉のお重 銀座3丁目の馬肉料理店の平日ランチ限定メニューで、サラダ・香物・お椀が付きます。数に限りがあり、品薄のときは出せない日もあるそうです。お店で食べるだけで、通販はありません。 平日の11:00〜14:30に行く ネット予約で席を取る">
+<a class="ph none" href="https://basai-ginza.com/lunch/" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">店</span></a>
+<div class="card-b"><div class="ep">2026年10月8日（木）放送｜銀座・ファミレス</div>
+<div class="name"><a href="20261008-ginza-gusto-jollypasta.html#i2">馬菜 BASAI 銀座本店「馬肉大トロ重」</a></div>
+<p class="catch">平日ランチ限定の、馬肉のお重</p>
+
+<div class="price">2,530円<small>税込</small></div>
+<a class="btn" href="https://basai-ginza.com/lunch/" target="_blank" rel="noopener">公式ランチメニューを見る</a>
+
+<a class="more" href="20261008-ginza-gusto-jollypasta.html#i2">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="店" data-shop="銀座・ファミレス" data-date="2026-10-08" data-price="1044" data-text="ガスト「焼き野菜と月見チーズinハンバーグ～きのこデミソース～」 銀座・ファミレス 和菓子・グルメ 温泉卵をのせた、チーズ入りハンバーグ 12種類のチーズを包んだハンバーグに温泉卵をのせ、しめじ入りのデミグラスソースを合わせた一皿です。かぼちゃ、れんこん、パプリカの焼き野菜付き。秋のフェアのメニューで、10月21日までの期間限定です。 温泉卵をくずしてデミソースとからめる 焼き野菜をソースにつけて">
+<a class="ph none" href="https://www.skylark.co.jp/gusto/menu/fair3/index.html" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">店</span></a>
+<div class="card-b"><div class="ep">2026年10月8日（木）放送｜銀座・ファミレス</div>
+<div class="name"><a href="20261008-ginza-gusto-jollypasta.html#i3">ガスト「焼き野菜と月見チーズINハンバーグ～きのこデミソース～」</a></div>
+<p class="catch">温泉卵をのせた、チーズ入りハンバーグ</p>
+
+<div class="price">1,044円〜<small>税込</small></div>
+<a class="btn" href="https://www.skylark.co.jp/gusto/menu/fair3/index.html" target="_blank" rel="noopener">公式メニューを見る</a>
+
+<a class="more" href="20261008-ginza-gusto-jollypasta.html#i3">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="店" data-shop="銀座・ファミレス" data-date="2026-10-08" data-price="0" data-text="ジョリーパスタ（秋冬の新メニュー） 銀座・ファミレス 和菓子・グルメ 10月から秋冬メニューのパスタ専門店 同じフルコース対決に登場したパスタ専門店です。10月6日から秋冬のグランドメニューに変わり、牛肉100％の粗挽き肉を使うボロネーゼや、スモークサーモン・舞茸・ルッコラのペペロンチーノが加わりました。番組で選ばれたメニューは確認中です。 ">
+<a class="ph none" href="https://www.jolly-pasta.co.jp/menu/" target="_blank" rel="noopener"><span><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 30h36"/><path d="M10 30a14 14 0 0 1 28 0"/><path d="M24 12v4"/><path d="M14 38h20"/></svg>写真はお店の<br>ページで見られます</span><span class="kind">店</span></a>
+<div class="card-b"><div class="ep">2026年10月8日（木）放送｜銀座・ファミレス</div>
+<div class="name"><a href="20261008-ginza-gusto-jollypasta.html#i4">ジョリーパスタ（秋冬の新メニュー）</a></div>
+<p class="catch">10月から秋冬メニューのパスタ専門店</p>
+
+<div class="price">確認中<small></small></div>
+<a class="btn" href="https://www.jolly-pasta.co.jp/menu/" target="_blank" rel="noopener">公式メニューを見る</a>
+
+<a class="more" href="20261008-ginza-gusto-jollypasta.html#i4">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="宿" data-shop="伊香保温泉" data-date="2026-10-05" data-price="30800" data-text="伊香保温泉 和心の宿 大森 伊香保温泉 宿 標高800mの屋上露天風呂と、赤城牛の会席 大正8年（1919年）創業、伊香保温泉の全35室の宿です。屋上の露天風呂は標高およそ800mにあり、赤城山などの山並みを見ながら伊香保の「白銀の湯」に入れます。部屋は10畳の和室から33畳のグループ向けまであり、夕食は群馬の食材を使った会席です。 ">
+<a class="ph cover" href="https://hb.afl.rakuten.co.jp/hgc/584eca7f.b482ba06.584eca80.649f3027/?pc=https%3A%2F%2Ftravel.rakuten.co.jp%2FHOTEL%2F10737%2F10737.html&amp;link_type=text&amp;ut=eyJwYWdlIjoidXJsIiwidHlwZSI6InRleHQiLCJjb2wiOjF9" target="_blank" rel="nofollow sponsored noopener"><img src="https://img.travel.rakuten.co.jp/share/HOTEL/10737/10737.jpg" loading="lazy" alt="伊香保温泉 和心の宿 大森の写真"><span class="credit">写真：楽天トラベル</span><span class="kind">宿</span></a>
+<div class="card-b"><div class="ep">2026年10月5日（月）放送｜伊香保温泉</div>
+<div class="name"><a href="20261005-ikaho-omori.html#i1">伊香保温泉 和心の宿 大森</a></div>
+<p class="catch">標高800mの屋上露天風呂と、赤城牛の会席</p>
+
+<div class="price">30,800円〜<small>1名・1泊2食・税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/hgc/584eca7f.b482ba06.584eca80.649f3027/?pc=https%3A%2F%2Ftravel.rakuten.co.jp%2FHOTEL%2F10737%2F10737.html&amp;link_type=text&amp;ut=eyJwYWdlIjoidXJsIiwidHlwZSI6InRleHQiLCJjb2wiOjF9" target="_blank" rel="nofollow sponsored noopener">楽天トラベルで空室を見る</a>
+
+<a class="more" href="20261005-ikaho-omori.html#i1">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="648" data-text="akomeya tokyo 味付き鶏節削り 極薄削り akomeya tokyo ごはんのお供・調味料 かつお節よりあっさり、うま味はしっかり 鹿児島県で作られた「鶏節」に薄く塩味をつけて、ごく薄く削った削り節です。かつお節に比べて淡泊なのに、うま味はしっかり。口当たりが軽いので、いつもの料理にふわっとのせるだけで一品らしくなります。 卵かけごはん サラダ 冷奴 厚揚げ">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004063%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10001371&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10273314%2F4977930004063_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO 味付き鶏節削り 極薄削りの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i1">AKOMEYA TOKYO 味付き鶏節削り 極薄削り</a></div>
+<p class="catch">かつお節よりあっさり、うま味はしっかり</p>
+
+<div class="price">648円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004063%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4977930004063" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO 味付き鶏節削り 極薄削り" data-price="648" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004063%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10001371&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10273314%2F4977930004063_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i1">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="680" data-text="akomeya tokyo サクサク ふりかけ（とり）30g akomeya tokyo ごはんのお供・調味料 甘辛しょう油味の、サクサク食感 薄く削った鶏節をしょう油・みりん・砂糖で甘辛く味つけし、すりごまをまぶしたふりかけです。名前のとおりサクサクした食感で、海苔の風味が鶏節の味を引き立てます。 炊きたてごはん おにぎり">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004414%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10004392&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09516418%2Fimgrc0091562033.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO サクサク ふりかけ（とり）30gの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i2">AKOMEYA TOKYO サクサク ふりかけ（とり）30g</a></div>
+<p class="catch">甘辛しょう油味の、サクサク食感</p>
+
+<div class="price">680円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004414%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4977930004414" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO サクサク ふりかけ（とり）30g" data-price="680" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004414%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10004392&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09516418%2Fimgrc0091562033.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i2">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="756" data-text="akomeya tokyo 極薄削りふりかけ（とり） akomeya tokyo ごはんのお供・調味料 0.01mmの極薄削りで、ふわふわ 0.01mmの薄さに削ったとり節に、海苔とちりめんを合わせたふりかけです。ごはんにのせるとふわふわの口どけ。味つけは控えめで、素材の風味を楽しむタイプです。同じシリーズに「かつお」「いわし」もあります。 熱いごはんにのせて お好みでしょう油をひとたらし">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004391%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10004390&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09516418%2Fimgrc0091555678.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO 極薄削りふりかけ（とり）の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i3">AKOMEYA TOKYO 極薄削りふりかけ（とり）</a></div>
+<p class="catch">0.01mmの極薄削りで、ふわふわ</p>
+
+<div class="price">756円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004391%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4977930004391" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO 極薄削りふりかけ（とり）" data-price="756" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4977930004391%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10004390&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09516418%2Fimgrc0091555678.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i3">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="620" data-text="akomeya tokyo ごま和え胡麻 スタンドパック(60g)／ボトル(180g) akomeya tokyo ごはんのお供・調味料 ゆで野菜に和えるだけで、ごま和えが完成 しょう油味のごまに、アーモンドとかつお節を合わせた香ばしい「かけるごま」です。ゆでた野菜に和えるだけでごま和えになり、ごはんや麺、冷奴にそのままかけても使えます。まず試すなら60gのスタンドパック、気に入ったら180gのボトルを。 野菜のごま和え ごはん・おにぎり うどん・そうめん 冷奴 サラダ">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4546722900038%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10000007&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image%2F20251125175000_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO ごま和え胡麻 スタンドパック(60g)／ボトル(180g)の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i4">AKOMEYA TOKYO ごま和え胡麻 スタンドパック(60g)／ボトル(180g)</a></div>
+<p class="catch">ゆで野菜に和えるだけで、ごま和えが完成</p>
+
+<div class="price">620円〜<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4546722900038%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4546722900038" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO ごま和え胡麻 スタンドパック(60g)／ボトル(180g)" data-price="620" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4546722900038%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10000007&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image%2F20251125175000_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i4">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="490" data-text="まぜ×かけ のどぐろ 100g akomeya tokyo ごはんのお供・調味料 高級魚のどぐろ入り。混ぜても、かけても 甘じょっぱく味つけしたひじきに、あおさ、とろろ昆布、国産のどぐろを合わせたソフトタイプのふりかけです。ごはんに混ぜれば混ぜごはんに、そのままかければふりかけに。姉妹品に「あご」「梅」「わさび」もあります。 混ぜごはん 卵かけごはん 和風パスタの具">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4900325025268%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10003705&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F08950751%2Fimgrc0089651857.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="まぜ×かけ のどぐろ 100gの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i5">まぜ×かけ のどぐろ 100g</a></div>
+<p class="catch">高級魚のどぐろ入り。混ぜても、かけても</p>
+<a class="mark alt" href="20250919-akomeya-tokyo.html#i5">ほかのお店なら410円〜</a>
+<div class="price">490円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4900325025268%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4900325025268" data-shop="AKOMEYA TOKYO" data-name="まぜ×かけ のどぐろ 100g" data-price="490" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4900325025268%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10003705&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F08950751%2Fimgrc0089651857.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i5">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="470" data-text="井上商店 ソフトふりかけ しそわかめ akomeya tokyo ごはんのお供・調味料 萩の「わかめ飯」がもとの、しそ風味 山口県・萩地方で昔から食べられてきた「わかめ飯」をもとにした、しそ風味のやわらかいふりかけです。ごはんに混ぜるだけで、わかめごはんになります。 温かいごはん ピラフ お好み焼き うどん 野菜サラダ">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4970905233413%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10004337&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09516418%2Fimgrc0093249136.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="井上商店 ソフトふりかけ しそわかめの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i6">井上商店 ソフトふりかけ しそわかめ</a></div>
+<p class="catch">萩の「わかめ飯」がもとの、しそ風味</p>
+<span class="mark gone">紹介されたお店は在庫切れ（10/8）</span><a class="mark alt" href="20250919-akomeya-tokyo.html#i6">ほかのお店なら418円〜</a>
+<div class="price">470円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4970905233413%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4970905233413" data-shop="AKOMEYA TOKYO" data-name="井上商店 ソフトふりかけ しそわかめ" data-price="470" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4970905233413%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10004337&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09516418%2Fimgrc0093249136.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i6">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="750" data-text="akomeya tokyo おおぶり焼きほぐし 天然真鯛 akomeya tokyo ごはんのお供・調味料 愛媛の天然真鯛を、大きめのほぐし身で 愛媛県産の天然真鯛を焼いて大きめにほぐし、鯛のあら・昆布・貝のだしと藻塩で味つけした瓶詰めです。身がしっとりしていて、鯛のうま味にだしの香りが重なります。 おにぎりの具 だしをかけてお茶漬け">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4905171007277%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007388&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F11293831%2Fimgrc0104764265.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO おおぶり焼きほぐし 天然真鯛の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i7">AKOMEYA TOKYO おおぶり焼きほぐし 天然真鯛</a></div>
+<p class="catch">愛媛の天然真鯛を、大きめのほぐし身で</p>
+
+<div class="price">750円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4905171007277%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4905171007277" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO おおぶり焼きほぐし 天然真鯛" data-price="750" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4905171007277%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007388&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F11293831%2Fimgrc0104764265.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i7">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="648" data-text="マッシュルームイチバン akomeya tokyo ごはんのお供・調味料 粗みじんとペースト、2つの食感 千葉県産のマッシュルームを「粗みじん切り」と「ペースト」の2通りに加工して合わせた瓶詰めです。ごはんにもパンにも合い、マヨネーズやクリームチーズに混ぜればディップにもなります。 卵かけごはん パン パスタ ディップソース">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330652811%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10005480&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10273314%2F45803306528111.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="マッシュルームイチバンの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i8">マッシュルームイチバン</a></div>
+<p class="catch">粗みじんとペースト、2つの食感</p>
+
+<div class="price">648円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330652811%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4580330652811" data-shop="AKOMEYA TOKYO" data-name="マッシュルームイチバン" data-price="648" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330652811%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10005480&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10273314%2F45803306528111.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i8">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="750" data-text="akomeya tokyo 卵かけ専用 かける牛肉ビビンバ akomeya tokyo ごはんのお供・調味料 卵かけごはんが、甘辛ビビンバ風に 国産牛肉、人参、ニラをコチュジャンベースで甘辛く仕上げた、卵かけごはん専用のお供です。卵と混ぜてちょうどよい濃いめの味つけ。うどんや鍋の味つけにも使えます。シリーズはほかに「ニララー油」「魯肉飯」。 卵かけごはん うどん 焼肉 鍋">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653160%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007168&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F11293831%2Fimgrc0104933366.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO 卵かけ専用 かける牛肉ビビンバの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i9">AKOMEYA TOKYO 卵かけ専用 かける牛肉ビビンバ</a></div>
+<p class="catch">卵かけごはんが、甘辛ビビンバ風に</p>
+<span class="mark gone">紹介されたお店は在庫切れ（10/8）</span>
+<div class="price">750円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653160%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4580330653160" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO 卵かけ専用 かける牛肉ビビンバ" data-price="750" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653160%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007168&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F11293831%2Fimgrc0104933366.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i9">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="750" data-text="akomeya tokyo 卵かけ専用 かけるニララー油 akomeya tokyo ごはんのお供・調味料 大きめニラの、旨辛スタミナ系 食感が残るよう大きめに切った国産ニラに、千葉県産の生姜、玉ねぎ、にんにく、唐辛子を合わせた、卵かけごはん専用のラー油です。濃いめの旨辛味で、麺や炒め物にも使えます。 卵かけごはん 麺類 炒め物 和え物">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653177%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007169&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F11293831%2Fimgrc0104933454.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO 卵かけ専用 かけるニララー油の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i10">AKOMEYA TOKYO 卵かけ専用 かけるニララー油</a></div>
+<p class="catch">大きめニラの、旨辛スタミナ系</p>
+
+<div class="price">750円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653177%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4580330653177" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO 卵かけ専用 かけるニララー油" data-price="750" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653177%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007169&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F11293831%2Fimgrc0104933454.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i10">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="519" data-text="akomeya tokyo ピリ辛山菜きのこ akomeya tokyo ごはんのお供・調味料 6種のきのこと山菜を、ピリ辛で えのき、たけのこ、ぶなしめじ、山くらげ、きくらげ、しいたけの6種を使ったピリ辛の瓶詰めです。長野県のメーカー「高見澤」との共同開発。ごはんにのせるほか、冷奴やラーメンの具にもなります。 ごはん 炒め物 冷奴 ラーメンの具">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4990998106029%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10003884&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09935422%2Fcompass1685349857.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO ピリ辛山菜きのこの商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i11">AKOMEYA TOKYO ピリ辛山菜きのこ</a></div>
+<p class="catch">6種のきのこと山菜を、ピリ辛で</p>
+
+<div class="price">519円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4990998106029%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4990998106029" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO ピリ辛山菜きのこ" data-price="519" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4990998106029%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10003884&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F09935422%2Fcompass1685349857.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i11">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="780" data-text="akomeya tokyo たっぷり具材 豚そぼろ大葉味噌 akomeya tokyo ごはんのお供・調味料 国産豚と大葉の、甘辛みそ 国産の豚肉と刻み大葉を、白味噌と赤味噌で甘辛く仕上げた肉みそです。肉を炒めた油で香味野菜の香りを引き出していて、味噌のコクのあとに大葉の香りが残ります。 炊きたてごはん おにぎりの具 冷奴 野菜のディップ">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330652903%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10006282&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F10610737%2F4580330652903_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO たっぷり具材 豚そぼろ大葉味噌の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i12">AKOMEYA TOKYO たっぷり具材 豚そぼろ大葉味噌</a></div>
+<p class="catch">国産豚と大葉の、甘辛みそ</p>
+
+<div class="price">780円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330652903%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4580330652903" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO たっぷり具材 豚そぼろ大葉味噌" data-price="780" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330652903%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10006282&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F10610737%2F4580330652903_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i12">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="780" data-text="akomeya tokyo たっぷり具材 鮪とねぎの生姜煮 akomeya tokyo ごはんのお供・調味料 まぐろと長ねぎを、生姜でピリッと ビンチョウマグロと千葉県産の長ねぎ、針生姜をじっくり甘辛く煮込み、唐辛子で後味をピリッと引き締めた瓶詰めです。ごはんのお供にも、そのまま小鉢の一品にもなります。 ごはん おにぎりの具 小鉢の一品 お酒のおつまみ">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653061%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10006670&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F0329-2134.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO たっぷり具材 鮪とねぎの生姜煮の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i13">AKOMEYA TOKYO たっぷり具材 鮪とねぎの生姜煮</a></div>
+<p class="catch">まぐろと長ねぎを、生姜でピリッと</p>
+
+<div class="price">780円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653061%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4580330653061" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO たっぷり具材 鮪とねぎの生姜煮" data-price="780" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4580330653061%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10006670&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F0329-2134.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i13">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="1500" data-text="akomeya tokyo 炊き込みごはんの素 宮城県産鮭バターめし 2合炊き用 akomeya tokyo ごはんのお供・調味料 お米2合と炊くだけ。宮城の銀鮭とバター 宮城県産の銀鮭に、松山あげ、だし昆布、人参を合わせた炊き込みごはんの素です。バターはフリーズドライで別添え。お米2合と一緒に炊飯器に入れて炊くだけで、鮭とバターのコクのあるごはんになります。 お米2合と炊飯器で炊く">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4905171008144%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10008580&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image%2F20250820181532_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO 炊き込みごはんの素 宮城県産鮭バターめし 2合炊き用の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i14">AKOMEYA TOKYO 炊き込みごはんの素 宮城県産鮭バターめし 2合炊き用</a></div>
+<p class="catch">お米2合と炊くだけ。宮城の銀鮭とバター</p>
+
+<div class="price">1,500円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4905171008144%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4905171008144" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO 炊き込みごはんの素 宮城県産鮭バターめし 2合炊き用" data-price="1500" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4905171008144%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10008580&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image%2F20250820181532_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i14">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="600" data-text="akomeya tokyo アコメヤの出汁 きのこ 35g（7g×5袋） akomeya tokyo ごはんのお供・調味料 舞茸と椎茸の、香りのだしパック 国産の舞茸と椎茸を使っただしパックです。きのこの香りとうま味が出るので、炊き込みごはんや鍋のベースに。袋を破って中身をそのまま和風パスタにからめる使い方もできます。 炊き込みごはん 鍋 うどん・そばのつゆ 和風パスタ">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4974560000694%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10008576&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image%2F20250820180612_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO アコメヤの出汁 きのこ 35g（7g×5袋）の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i15">AKOMEYA TOKYO アコメヤの出汁 きのこ 35g（7g×5袋）</a></div>
+<p class="catch">舞茸と椎茸の、香りのだしパック</p>
+
+<div class="price">600円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4974560000694%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4974560000694" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO アコメヤの出汁 きのこ 35g（7g×5袋）" data-price="600" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4974560000694%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10008576&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2Fbiiino%2Fitem%2Fmain-image%2F20250820180612_1.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i15">くわしく見る</a></div>
+</li>
+<li class="card" data-kind="商品" data-shop="AKOMEYA TOKYO" data-date="2025-09-19" data-price="880" data-text="akomeya tokyo アコメヤのゆずぽん酢 akomeya tokyo ごはんのお供・調味料 徳島県産ゆず果汁をたっぷり 徳島県産のゆず果汁をたっぷり使い、国産丸大豆しょう油、純米酢、釜で煮出しただしを合わせたぽん酢です。島根・奥出雲の醤油蔵「森田醤油」との共同開発。鍋の季節の前に1本あると重宝します。 焼き魚 焼肉 豆腐 生野菜">
+<a class="ph" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4984252900232%2F" target="_blank" rel="nofollow sponsored noopener"><img src="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007402&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F10967989%2F0920ak224.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext" width="400" height="400" loading="lazy" alt="AKOMEYA TOKYO アコメヤのゆずぽん酢の商品写真" title="[商品価格に関しましては、リンクが作成された時点と現時点で情報が変更されている場合がございます。]"><span class="kind">商品</span></a>
+<div class="card-b"><div class="ep">2025年9月19日（金）放送｜AKOMEYA TOKYO</div>
+<div class="name"><a href="20250919-akomeya-tokyo.html#i16">AKOMEYA TOKYO アコメヤのゆずぽん酢</a></div>
+<p class="catch">徳島県産ゆず果汁をたっぷり</p>
+
+<div class="price">880円<small>税込</small></div>
+<a class="btn" href="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4984252900232%2F" target="_blank" rel="nofollow sponsored noopener">楽天市場で見る</a>
+<button class="add" type="button" aria-pressed="false" data-id="4984252900232" data-shop="AKOMEYA TOKYO" data-name="AKOMEYA TOKYO アコメヤのゆずぽん酢" data-price="880" data-url="https://hb.afl.rakuten.co.jp/ichiba/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fakomeyatokyo%2F4984252900232%2F" data-img="https://hbb.afl.rakuten.co.jp/hgb/584a3b37.2a4108aa.584a3b38.a1b9d8be/?me_id=1390601&amp;item_id=10007402&amp;pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fakomeyatokyo%2Fcabinet%2F10494522%2F10967989%2F0920ak224.jpg%3F_ex%3D400x400&amp;s=400x400&amp;t=picttext">＋ まとめ買いリストへ</button>
+<a class="more" href="20250919-akomeya-tokyo.html#i16">くわしく見る</a></div>
+</li>
+</ul>
+<div class="empty" id="empty" hidden><div>条件に合うものがありません。しぼり込みを減らしてください。</div><button class="btn ghost" id="reset">条件をすべて外す</button></div>
+<h2 id="kai">放送回まとめ</h2>
+<ul class="blist"><li><a href="20261009-yokohama-shingo.html">2026年10月9日（金）放送｜「台本なしんご旅！」横浜の中華街・馬車道・横浜駅西口グルメ<small>「台本なしんご旅！」（神奈川・横浜）　確認日：2026年10月9日</small></a></li><li><a href="20261008-ginza-gusto-jollypasta.html">2026年10月8日（木）放送｜銀座「ゆのちゃんのはじめて旅」とガスト×ジョリーパスタのフルコース対決<small>「ゆのちゃんのはじめて旅」（銀座）／「店員VS有名シェフ2000円以内最強フルコース」（ガスト、ジョリーパスタ）　確認日：2026年10月8日</small></a></li><li><a href="20261005-ikaho-omori.html">2026年10月5日（月）放送｜伊香保温泉の宿「和心の宿 大森」<small>伊香保温泉の女将に「メディア初出しグルメ」を聞く旅　確認日：2026年10月8日</small></a></li><li><a href="20250919-akomeya-tokyo.html">2025年9月19日（金）放送｜AKOMEYA TOKYOのふりかけ・ごはんのお供 16品<small>「AKOMEYAで進化するふりかけ＆ご飯のお供を調査」　確認日：2026年10月8日</small></a></li></ul>
+</main>
+<footer><p class="prnote">※本サイトにはアフィリエイト広告（PR）が含まれます。</p>当サイトは番組・放送局とは関係のない非公式サイトです。価格・在庫・空室は確認時点の情報です。最新の情報は各販売ページ・予約ページでご確認ください。<br><a href="about.html">このサイトについて</a>　<a href="https://developers.rakuten.com/" target="_blank" rel="noopener">Supported by Rakuten Developers</a></footer>
+</div>
+<script>
+(function(){
+  var list=document.getElementById('list'), items=Array.prototype.slice.call(list.children);
+  items.forEach(function(li,i){ li.dataset.i=i; });
+  var st={q:'',kind:'',shop:'',sort:'new'};
+  function render(){
+    var q=st.q.trim().toLowerCase(), n=0;
+    items.forEach(function(li){
+      var ok=(!st.kind||li.dataset.kind===st.kind)&&(!st.shop||li.dataset.shop===st.shop)&&(!q||li.dataset.text.indexOf(q)>=0);
+      li.hidden=!ok; if(ok) n++;
+    });
+    var s=items.slice().sort(function(a,b){
+      if(st.sort==='new') return a.dataset.i-b.dataset.i;
+      return st.sort==='low' ? a.dataset.price-b.dataset.price : b.dataset.price-a.dataset.price;
+    });
+    s.forEach(function(li){ list.appendChild(li); });
+    document.getElementById('count').firstChild.nodeValue=n+'件 ';
+    list.hidden=n===0; document.getElementById('empty').hidden=n!==0;
+    Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(c){ c.setAttribute('aria-pressed',String(st[c.dataset.f]===c.dataset.v)); });
+  }
+  document.addEventListener('click',function(ev){ var c=ev.target.closest('.chip'); if(!c) return; st[c.dataset.f]=c.dataset.v; render(); });
+  document.getElementById('q').addEventListener('input',function(){ st.q=this.value; render(); });
+  document.getElementById('sort').addEventListener('change',function(){ st.sort=this.value; render(); });
+  document.getElementById('reset').addEventListener('click',function(){ st.q='';st.kind='';st.shop=''; document.getElementById('q').value=''; render(); });
+})();
+</script><script>
+(function(){
+  var SHOPS={"AKOMEYA TOKYO": {"label": "AKOMEYA TOKYO 楽天市場店", "url": "https://hb.afl.rakuten.co.jp/hgc/584a3b37.2a4108aa.584a3b38.a1b9d8be/?pc=https%3A%2F%2Fwww.rakuten.co.jp%2Fakomeyatokyo%2Fcontents%2Fmedia%2F20250919%2F&link_type=text&ut=eyJwYWdlIjoidXJsIiwidHlwZSI6InRleHQiLCJjb2wiOjF9", "ship": "送料の目安：宅配便 710円（北海道 1,420円・沖縄 2,130円）、メール便対応の商品は 250円。2026年10月8日確認。"}}, KEY='hirumemo-list', L=[], seen={};
+  try{ L=JSON.parse(localStorage.getItem(KEY)||'[]')||[]; }catch(e){ L=[]; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(L)); }catch(e){} }
+  function yen(n){ return Number(n).toLocaleString('ja-JP')+'円'; }
+  function has(id){ return L.some(function(x){return x.id===id}); }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  var bar=document.createElement('div'); bar.className='cartbar'; bar.hidden=true;
+  var panel=document.createElement('div'); panel.className='cartpanel'; panel.hidden=true;
+  document.body.appendChild(bar); document.body.appendChild(panel);
+  function draw(){
+    Array.prototype.forEach.call(document.querySelectorAll('.add'),function(b){
+      var on=has(b.dataset.id); b.setAttribute('aria-pressed',String(on)); b.textContent=on?'✓ リストに入れました':'＋ まとめ買いリストへ';
+    });
+    var total=L.reduce(function(a,x){return a+Number(x.price)},0);
+    bar.hidden=L.length===0; document.body.classList.toggle('hascart',L.length>0);
+    bar.innerHTML='<span>まとめ買いリスト <b>'+L.length+'品</b>　合計 <b>'+yen(total)+'</b><small>（税込・送料別）</small></span><button class="btn" type="button" data-act="open">リストを見て買う</button>';
+    if(L.length===0){ panel.hidden=true; return; }
+    var shops={}; L.forEach(function(x){ (shops[x.shop]=shops[x.shop]||[]).push(x); });
+    var h='<div class="cartsheet" role="dialog" aria-label="まとめ買いリスト"><div class="carthead"><h2>まとめ買いリスト</h2><button class="btn ghost" type="button" data-act="close">とじる</button></div>';
+    Object.keys(shops).forEach(function(k){
+      var s=SHOPS[k]||{label:k};
+      h+='<p><b>'+esc(s.label)+'</b>の商品です。上から順に「楽天市場で見る」を押して買い物かごに入れていくと、1回の注文にまとめられます。</p>'+(s.ship?'<p class="note">'+esc(s.ship)+'</p>':'')+'<ul class="cartlist">';
+      shops[k].forEach(function(x){
+        h+='<li><img src="'+esc(x.img)+'" alt="" width="64" height="64" loading="lazy"><div><div class="nm">'+esc(x.name)+'</div><div class="pr2">'+yen(x.price)+'（税込）</div></div><div class="ops"><a class="btn" href="'+esc(x.url)+'" target="_blank" rel="nofollow sponsored noopener" data-seen="'+esc(x.id)+'">楽天市場で見る</a>'+(seen[x.id]?'<span class="seen">✓ 開きました</span>':'')+'<button class="x" type="button" data-rm="'+esc(x.id)+'">リストから外す</button></div></li>';
+      });
+      h+='</ul>'+(s.url?'<div><a class="btn ghost" href="'+esc(s.url)+'" target="_blank" rel="nofollow sponsored noopener">お店の紹介商品ページでまとめて選ぶ</a></div>':'');
+    });
+    h+='<div class="carttotal"><span>合計（'+L.length+'品）</span><span>'+yen(total)+'<small>（税込・送料別）</small></span></div><p class="note">価格は確認時点のものです。最新の価格と送料は楽天市場の注文画面でご確認ください。</p></div>';
+    panel.innerHTML=h;
+  }
+  document.addEventListener('click',function(ev){
+    var t=ev.target, b=t.closest('.add');
+    if(b){ var id=b.dataset.id; if(has(id)) L=L.filter(function(x){return x.id!==id}); else L.push({id:id,shop:b.dataset.shop,name:b.dataset.name,price:Number(b.dataset.price),url:b.dataset.url,img:b.dataset.img}); save(); draw(); return; }
+    if(t.closest('[data-act="open"]')){ panel.hidden=false; return; }
+    if(t.closest('[data-act="close"]')||t===panel){ panel.hidden=true; return; }
+    var r=t.closest('[data-rm]'); if(r){ L=L.filter(function(x){return x.id!==r.dataset.rm}); save(); draw(); return; }
+    var s=t.closest('[data-seen]'); if(s){ seen[s.dataset.seen]=1; setTimeout(draw,300); }
+  });
+  document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') panel.hidden=true; });
+  draw();
+})();
+</script>
+</body>
+</html>
